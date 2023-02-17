@@ -12,7 +12,6 @@ public class ConsoleCalculator implements Calculator{
     }
 
 
-
     private int accWithDetailledLog(List<String> values, String operator) {
         int res = 0;
         for (int i = 0; i < values.size(); i++) {
