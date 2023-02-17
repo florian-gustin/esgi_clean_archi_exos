@@ -28,7 +28,8 @@ public class App
         if(arguments.get(0).equals("calc")){
             List<String> operations = fileParser.fromFileName(arguments.get(1));
             boolean isLog = arguments.get(3).equals("-log");
-            calculator.accumulate(operations, isLog);
+            String operator = arguments.get(2).replace("\"\"", "");
+            calculator.accumulate(operations, isLog, operator);
         }
     }
 }

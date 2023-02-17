@@ -12,11 +12,8 @@ public class ConsoleCalculator implements Calculator{
     }
 
 
-    public int accumulate(List<String> values, boolean log) {
-        return log ? accWithDetailledLog(values) : acc(values);
-    }
 
-    private int accWithDetailledLog(List<String> values) {
+    private int accWithDetailledLog(List<String> values, String operator) {
         int res = 0;
         for (int i = 0; i < values.size(); i++) {
             String value = values.get(i);
@@ -29,9 +26,9 @@ public class ConsoleCalculator implements Calculator{
                 logger.printOperations(value);
                 logger.println("accumulation : " + values.get(i) + " on line " + (i+1));
             }else{
-                res += raw;
+                res = applyOperator(operator, res, raw);
                 logger.println("parsed value = "+raw);
-                logger.printOperations("+"+value+" (= "+res+")");
+                logger.printOperations(operator+value+" (= "+res+")");
                 logger.println("accumulation : " + values.get(i) + " on line " + (i+1));
             }
         }
@@ -41,7 +38,7 @@ public class ConsoleCalculator implements Calculator{
         return res;
     }
 
-    private int acc(List<String> values) {
+    private int acc(List<String> values, String operator) {
         int res = 0;
         for (int i = 0; i < values.size(); i++) {
             String value = values.get(i);
@@ -51,8 +48,8 @@ public class ConsoleCalculator implements Calculator{
                 logger.printOperations(value);
 
             }else{
-                res += raw;
-                logger.printOperations("+"+value+" (= "+res+")");
+                res = applyOperator(operator, res, raw);
+                logger.printOperations(operator+value+" (= "+res+")");
             }
         }
         logger.printSeparator();
@@ -60,4 +57,26 @@ public class ConsoleCalculator implements Calculator{
         return res;
     }
 
+    private int applyOperator(String operator, int prev, int next) {
+        int res = 0;
+           switch (operator) {
+               case "-" :
+                   res = prev - next;
+                   break;
+               case "*" :
+                   res = prev * next;
+                   break;
+               case "/" :
+                   res = prev / next;
+                   break;
+               default:
+                    res = prev + next;
+           };
+           return res;
+    }
+
+    @Override
+    public int accumulate(List<String> values, boolean log, String operator) {
+        return log ? accWithDetailledLog(values, operator) : acc(values, operator);
+    }
 }
